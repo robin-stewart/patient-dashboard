@@ -1,4 +1,10 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 import { sequelize } from '../db';
 
 export class Patient extends Model<InferAttributes<Patient>, InferCreationAttributes<Patient>> {
@@ -16,7 +22,7 @@ Patient.init(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     firstName: { type: DataTypes.STRING, allowNull: false },
     middleName: { type: DataTypes.STRING },
@@ -24,13 +30,13 @@ Patient.init(
     dob: { type: DataTypes.DATE, allowNull: false },
     status: {
       type: DataTypes.ENUM('Inquiry', 'Onboarding', 'Active', 'Churned'),
-      allowNull: false
+      allowNull: false,
     },
-    address: { type: DataTypes.STRING, allowNull: false }
+    address: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,
     modelName: 'patient',
-    tableName: 'patients'
-  }
+    tableName: 'patients',
+  },
 );
