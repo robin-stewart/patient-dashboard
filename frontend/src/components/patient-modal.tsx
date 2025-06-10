@@ -8,6 +8,7 @@ import {
   TextField,
   MenuItem,
 } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import type { PatientFormData } from '../types/patient';
 
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const defaultForm: PatientFormData = {
+  id: 0,
   firstName: '',
   middleName: '',
   lastName: '',
@@ -28,9 +30,23 @@ const defaultForm: PatientFormData = {
 };
 
 export const PatientModal = ({ open, onClose, onSubmit, initialData }: Props) => {
-  const { register, handleSubmit, reset } = useForm<PatientFormData>({
-    defaultValues: initialData || defaultForm,
+  const { register, handleSubmit, reset, watch } = useForm<PatientFormData>({
+    defaultValues: defaultForm,
   });
+
+  const status = watch('status');
+
+  useEffect(() => {
+    if (initialData) {
+      reset({
+        ...initialData,
+        dob: initialData.dob?.slice(0, 10),
+      });
+    } else {
+      reset(defaultForm);
+    }
+    console.log(initialData);
+  }, [initialData, reset]);
 
   const onFormSubmit = (data: PatientFormData) => {
     onSubmit(data);
@@ -58,10 +74,16 @@ export const PatientModal = ({ open, onClose, onSubmit, initialData }: Props) =>
               fullWidth
               {...register('dob')}
             />
-            <TextField label="Status" select fullWidth {...register('status')}>
-              {['Inquiry', 'Onboarding', 'Active', 'Churned'].map((status) => (
-                <MenuItem key={status} value={status}>
-                  {status}
+            <TextField
+              label="Status"
+              select
+              fullWidth
+              value={status || 'Inquiry'}
+              {...register('status')}
+            >
+              {['Inquiry', 'Onboarding', 'Active', 'Churned'].map((statusOption) => (
+                <MenuItem key={statusOption} value={statusOption}>
+                  {statusOption}
                 </MenuItem>
               ))}
             </TextField>

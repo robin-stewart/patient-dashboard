@@ -3,9 +3,20 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { PatientModal } from './patient-modal';
 import type { PatientFormData } from '../types/patient';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createPatient } from '../services/api';
 
 export const AddPatientButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: createPatient,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['patients'] });
+    },
+  });
 
   return (
     <>
@@ -25,8 +36,9 @@ export const AddPatientButton = () => {
       <PatientModal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        onSubmit={function (formData: PatientFormData): void {
-          throw new Error('Function not implemented.');
+        onSubmit={(formData: PatientFormData) => {
+          mutation.mutate(formData);
+          setIsOpen(false);
         }}
       />
     </>

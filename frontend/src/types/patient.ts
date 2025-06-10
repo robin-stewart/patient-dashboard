@@ -18,8 +18,9 @@ export const StatusTypes = {
 export type StatusType = keyof typeof StatusTypes;
 
 export interface PatientFormData {
+  id: number;
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
   dob: string;
   status: StatusType;
