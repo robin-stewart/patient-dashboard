@@ -45,7 +45,6 @@ export const PatientModal = ({ open, onClose, onSubmit, initialData }: Props) =>
     } else {
       reset(defaultForm);
     }
-    console.log(initialData);
   }, [initialData, reset]);
 
   const onFormSubmit = (data: PatientFormData) => {

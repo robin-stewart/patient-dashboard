@@ -7,11 +7,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-sequelize.sync().then(() => {
-  console.log('Database synced');
-}).catch((err) => {
-  console.error('Database connection failed:', err);
-});
+sequelize
+  .sync()
+  .then(() => {
+    console.log('Database synced');
+  })
+  .catch((err) => {
+    console.error('Database connection failed:', err);
+  });
 
 app.get('/patients', async (_req, res) => {
   const patients = await Patient.findAll();

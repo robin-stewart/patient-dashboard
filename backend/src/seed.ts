@@ -48,8 +48,6 @@ async function seed() {
   ]);
 
   console.log('✨ Princess patients seeded ✨');
-  const patients = await Patient.findAll();
-  console.log(patients.map((p) => p.toJSON()));
 
   process.exit();
 }
